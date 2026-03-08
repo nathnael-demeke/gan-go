@@ -17,17 +17,16 @@ func hashText(key int) []string {
 
 func ceasarEncrypt(key int, text string) string {
 	//generate hasing text based on key provided
-
 	encryptedText := ""
 	hashedText := hashText(key)
 	strings.Map(func(r rune) rune {
-		letterIndex := strings.Index(strings.ToLower(originalLetters), strings.ToLower(string(r)))
+		letterIndex := strings.Index(originalLetters, strings.ToUpper(string([]rune{r})))
 
 		if letterIndex != -1 {
-			currentIndex := (letterIndex + len(text)) % len(text)
+			currentIndex := (letterIndex + len(originalLetters)) % len(originalLetters)
 			encryptedText += hashedText[currentIndex]
+			fmt.Printf("%d %s\n", currentIndex, originalLetters)
 		}
-
 		return r
 	}, text)
 
@@ -39,11 +38,7 @@ func ceasarDecrypt(key int, encryptedText string) string {
 	decryptedText := ""
 
 	strings.Map(func(letter rune) rune {
-		encryptedIndex := strings.Index(strings.Join(hasedText, ""), string([]rune{letter}))
-		encryptedIndex = (encryptedIndex + len(originalLetters)) % len(originalLetters)
-
-		decryptedText += string(originalLetters[encryptedIndex])
-		fmt.Printf("%d \n", encryptedIndex)
+		fmt.Printf("%s %s \n", strings.Join(hasedText, ""), encryptedText)
 		return 0
 	}, encryptedText)
 	return decryptedText
